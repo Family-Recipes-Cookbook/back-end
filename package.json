@@ -25,7 +25,11 @@
     
       
   "migraterollback": "knex migrate:rollback",
-    
+  "migrateh": "heroku run knex migrate:latest -a tt18familyrecipe",
+
+"rollbackh": "heroku run knex migrate:rollback -a tt18familyrecipe",
+    "databaseh": "heroku pg:psql -a tt18familyrecipe",
+    "seedh": "heroku run knex seed:run -a tt18familyrecipe",
       
   "seed": "knex seed:run",
     
@@ -65,6 +69,9 @@
     
       
   "helmet": "^4.4.1",
+    
+      
+  "heroku": "^7.51.0",
     
       
   "joi": "^17.4.0",
