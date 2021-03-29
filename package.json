@@ -1,0 +1,110 @@
+{
+    
+  "name": "secret-family-recipe-buildweek",
+    
+  "version": "1.0.0",
+    
+  "main": "index.js",
+    
+  "scripts": {
+    
+      
+  "start": "node index.js",
+    
+      
+  "server": "nodemon index.js",
+    
+      
+  "migrateup": "knex migrate:up",
+    
+      
+  "migratedown": "knex migrate:down",
+    
+      
+  "migratelatest": "knex migrate:latest",
+    
+      
+  "migraterollback": "knex migrate:rollback",
+    
+      
+  "seed": "knex seed:run",
+    
+      
+  "test": "jest --watchAll"
+    
+  },
+    
+  "repository": {
+    
+      
+  "type": "git",
+    
+      
+  "url": "git+https://github.com/Family-Recipes-Cookbook/back-end"
+    
+  },
+    
+  "license": "ISC",
+    
+  "dependencies": {
+    
+      
+  "bcrypt": "^5.0.1",
+    
+      
+  "bcryptjs": "^2.4.3",
+    
+      
+  "cors": "^2.8.5",
+    
+      
+  "dotenv": "^8.2.0",
+    
+      
+  "express": "^4.17.1",
+    
+      
+  "helmet": "^4.4.1",
+    
+      
+  "joi": "^17.4.0",
+    
+      
+  "jsonwebtoken": "^8.5.1",
+    
+      
+  "knex": "^0.95.4",
+    
+      
+  "knex-cleaner": "^1.3.1",
+    
+      
+  "pg": "^8.5.1",
+    
+      
+  "sqlite3": "^5.0.2"
+    
+  },
+    
+  "devDependencies": {
+    
+      
+  "@types/jest": "^26.0.21",
+    
+      
+  "cross-env": "^7.0.3",
+    
+      
+  "eslint": "^7.22.0",
+    
+      
+  "jest": "^26.6.3",
+    
+      
+  "nodemon": "^2.0.7",
+    
+      
+  "supertest": "^6.1.3"
+    
+  }
+}
