@@ -33,7 +33,9 @@ router.get("/", (req, res) => {
 
 // Get Recipe by Id
 router.get("/:id", (req, res) => {
-  Recipe.findById(req.params.recipe_id)
+  const { id } = req.params;
+
+  Recipe.findById(id)
     .then((recipe) => {
       res.status(200).json(recipe);
     })
@@ -61,6 +63,7 @@ router.post("/:id/shoppingList", (req, res) => {
 
 // Get Ingredients for Recipe Item
 router.get("/:id/shoppingList", async (req, res) => {
+  const { id } = req.params;
   Recipe.getShoppingList(id)
     .then((ingredients) => {
       if (ingredients.length) {

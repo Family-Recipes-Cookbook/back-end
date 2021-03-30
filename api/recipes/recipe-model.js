@@ -56,7 +56,7 @@ module.exports = {
   },
 
   findById(recipe_id) {
-    return db("recipes").where({ recipe_id }).first;
+    return db("recipes").where({ recipe_id }).first();
   },
 
   findBy(filter) {
