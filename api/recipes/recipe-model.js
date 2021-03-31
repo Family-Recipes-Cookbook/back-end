@@ -6,7 +6,12 @@ module.exports = {
   },
 
   getRecipes() {
-    return db("recipes");
+    return db("recipes")
+      .join("categories", "recipes.category_id", "categories.category_id")
+      .rightJoin("ingredients as i", "recipes.recipe_id", "i.recipe_id")
+      .leftJoin("instructions as in", "recipes.recipe_id", "in.recipe_id")
+      .select("recipes.*", "categories.category_name", "i.*", "in.*");
+    // .join('ingredients as i');
   },
 
   getShoppingList(id) {
