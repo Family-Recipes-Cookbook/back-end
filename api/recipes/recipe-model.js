@@ -5,21 +5,14 @@ module.exports = {
     return db("recipes").insert(recipe, "id");
   },
 
-  getRecipes() {
-    return db("recipes")
-      .join("categories", "recipes.category_id", "categories.category_id")
-      .rightJoin("ingredients as i", "recipes.recipe_id", "i.recipe_id")
-      .leftJoin("instructions as in", "recipes.recipe_id", "in.recipe_id")
-      .select("recipes.*", "categories.category_name", "i.*", "in.*");
-    // .join('ingredients as i');
-  },
+  // async getRecipeById(recipe_id){
+  //   const recipeRows = await db('recipes as r')
+  //     .where('recipe_id', recipe_id)
+  //   return recipeRows
+  // },
 
-  getShoppingList(id) {
-    return db("ingredients as i")
-      .join("step_ingredients as si", "i.ingredient_id", "si.ingredient_id")
-      .join("steps as s", "si.step_id", "s.step_id")
-      .select("i.ingredient_name", "si.ingredient_quantity")
-      .where("s.recipe_id", id);
+  getRecipes() {
+    return db("recipes");
   },
 
   async addToShoppingList(ingredient) {
@@ -34,13 +27,12 @@ module.exports = {
       });
   },
 
-  getInstructions(id) {
-    return db("steps")
-      .select("step_text", "step_order")
-      .where("recipe_id", id)
-      .orderBy("step_order");
+  getInstructions(recipe_id) {
+    return db("instructions").where("recipe_id", recipe_id);
   },
-
+  getIngredients(recipe_id) {
+    return db("ingredients").where("recipe_id", recipe_id);
+  },
   async addToInstructions(step) {
     const [id] = await db("steps")
       .select("step_text", "step_order")
@@ -61,7 +53,7 @@ module.exports = {
   },
 
   findById(recipe_id) {
-    return db("recipes").where({ recipe_id }).first();
+    return db("recipes").where({ recipe_id });
   },
 
   findBy(filter) {

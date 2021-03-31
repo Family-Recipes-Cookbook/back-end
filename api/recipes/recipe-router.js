@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const Joi = require("joi");
 
 const Recipe = require("./recipe-model");
+const { getInstructions } = require("./recipe-model");
 
 // Post recipe
 router.post("/", (req, res) => {
@@ -17,11 +18,33 @@ router.post("/", (req, res) => {
 });
 
 // Get all Recipes
-router.get("/", (req, res) => {
-  Recipe.getRecipes(req.body)
-    .then((recipes) => {
+router.get("/", async (req, res) => {
+  Recipe.getRecipes()
+    .then(async (recipes) => {
       if (recipes) {
-        res.json(recipes);
+        const getInstructions = async (list) => {
+          return Promise.all(
+            list.map(async (item) => {
+              let oneRecipe = { ...item };
+              let instructions = await Recipe.getInstructions(item.recipe_id);
+              oneRecipe.instructions = instructions;
+              return oneRecipe;
+            })
+          );
+        };
+        const getIngredients = async (list) => {
+          return Promise.all(
+            list.map(async (item) => {
+              let twoRecipe = { ...item };
+              let ingredients = await Recipe.getIngredients(item.recipe_id);
+              twoRecipe.ingredients = ingredients;
+              return twoRecipe;
+            })
+          );
+        };
+        let fullRecipe = await getInstructions(recipes);
+        let oneFullRecipe = await getIngredients(fullRecipe);
+        res.status(200).json(oneFullRecipe);
       } else {
         res.status(401).json({ message: "No recipes created" });
       }
@@ -30,17 +53,42 @@ router.get("/", (req, res) => {
       res.status(500).json({ error: error.message });
     });
 });
-
 // Get Recipe by Id
 router.get("/:id", (req, res) => {
   const { id } = req.params;
 
   Recipe.findById(id)
-    .then((recipe) => {
-      res.status(200).json(recipe);
+    .then(async (recipes) => {
+      if (recipes) {
+        const getInstructions = async (list) => {
+          return Promise.all(
+            list.map(async (item) => {
+              let oneRecipe = { ...item };
+              let instructions = await Recipe.getInstructions(item.recipe_id);
+              oneRecipe.instructions = instructions;
+              return oneRecipe;
+            })
+          );
+        };
+        const getIngredients = async (list) => {
+          return Promise.all(
+            list.map(async (item) => {
+              let twoRecipe = { ...item };
+              let ingredients = await Recipe.getIngredients(item.recipe_id);
+              twoRecipe.ingredients = ingredients;
+              return twoRecipe;
+            })
+          );
+        };
+        let fullRecipe = await getInstructions(recipes);
+        let oneFullRecipe = await getIngredients(fullRecipe);
+        res.status(200).json(oneFullRecipe);
+      } else {
+        res.status(401).json({ message: "No recipes created" });
+      }
     })
     .catch((err) => {
-      res.status(500).json({ error: err.message });
+      res.status(500).json({ error: error.message });
     });
 });
 
