@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const Joi = require("joi");
 
 const Recipe = require("./recipe-model");
-const { getInstructions } = require("./recipe-model");
+const { getInstructions, getIngredients } = require("./recipe-model");
 
 // Post recipe
 router.post("/", (req, res) => {
@@ -133,6 +133,36 @@ router.get("/:id/instructions", (req, res) => {
         res
           .status(404)
           .json({ message: "Could not find instrutions for given recipe " });
+      }
+    })
+    .catch((err) => {
+      res.status(500).json(err.message);
+    });
+});
+
+router.post("/:id/ingredients", (req, res) => {
+  const { id } = req.params;
+  Recipe.addToIngredients(id, req.body)
+    .then((ingredient) => {
+      res.status(200).json(ingredient);
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err.message });
+    });
+});
+
+getIngredients;
+router.get("/:id/ingredients", (req, res) => {
+  const { id } = req.params;
+
+  Recipe.getIngredients(id)
+    .then((ingredients) => {
+      if (ingredients.length) {
+        res.json(ingredients);
+      } else {
+        res
+          .status(404)
+          .json({ message: "Could not find ingredients for given recipe " });
       }
     })
     .catch((err) => {

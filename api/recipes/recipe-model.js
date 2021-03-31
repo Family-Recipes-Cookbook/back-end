@@ -17,7 +17,14 @@ module.exports = {
       "instruction_id",
     ]);
   },
-
+  addToIngredients(id, ingredient) {
+    const newIngredient = { recipe_id: id, ...ingredient };
+    return db("ingredients").insert(newIngredient, [
+      "recipe_id",
+      "ingredient_amount",
+      "ingredient_name",
+    ]);
+  },
   getInstructions(recipe_id) {
     return db("instructions").where("recipe_id", recipe_id);
   },
