@@ -212,25 +212,6 @@ router.put("/:recipe_id/ingredients/:ingredient_id", (req, res) => {
     });
 });
 
-// router.put("/:id", (req, res) => {
-//   const recipe = Recipe.findBy((r) => r.id === parseInt(req.params.recipe_id));
-//   if (!recipe) res.status(404).send("The course with the given id was missing");
-
-//   const { error } = validateRecipe(req.body);
-//   if (error) {
-//     res.status(400).send(error.details[0].message);
-//     return;
-//   }
-//   recipe.body = req.body;
-//   res.send(recipe);
-// });
-
-// function validateRecipe(recipe) {
-//   const schema = {
-//     name: Joi.string().min(1).required(),
-//   };
-//   return Joi.validate(recipe, schema);
-// }
 // //deleteRecipe
 // router.delete("/:id", (req, res) => {
 //   const { recipe_id } = req.params;
