@@ -92,55 +92,36 @@ router.get("/:id", (req, res) => {
     });
 });
 
-// Add Ingredient for Recipe item
-router.post("/:id/shoppingList", (req, res) => {
-  const { id } = req.params;
-
-  Recipe.addToShoppingList(req.body)
-    .then((ingredients) => {
-      if (ingredients.length) {
-        res.status(200).json(ingredients);
-      } else {
-        res.status(404).json({ message: "Add ingredient" });
-      }
-    })
-    .catch((err) => {
-      res.status(500).json({ error: err.message });
-    });
-});
-
-// Get Ingredients for Recipe Item
-router.get("/:id/shoppingList", async (req, res) => {
-  const { id } = req.params;
-  Recipe.getShoppingList(id)
-    .then((ingredients) => {
-      if (ingredients.length) {
-        res.status(201).json(ingredients);
-      } else {
-        res
-          .status(404)
-          .json({ message: "Could not find ingredients for given recipe" });
-      }
-    })
-    .catch((err) => {
-      res.status(500).json(err.message);
-    });
-});
-
+// // Get Ingredients for Recipe Item
+// router.get("/:id/shoppingList", async (req, res) => {
+//   const { id } = req.params;
+//   Recipe.getShoppingList(id)
+//     .then((ingredients) => {
+//       if (ingredients.length) {
+//         res.status(201).json(ingredients);
+//       } else {
+//         res
+//           .status(404)
+//           .json({ message: "Could not find ingredients for given recipe" });
+//       }
+//     })
+//     .catch((err) => {
+//       res.status(500).json(err.message);
+//     });
+// });
 // addInstructions
 router.post("/:id/instructions", (req, res) => {
   const { id } = req.params;
-
-  Recipe.addToInstructions(req.body)
-    .then((step) => {
-      res.status(200).json(step);
+  Recipe.addToInstructions(id, req.body)
+    .then((instruction) => {
+      res.status(200).json(instruction);
     })
     .catch((err) => {
       res.status(500).json({ error: err.message });
     });
 });
 
-// getInstructions
+getInstructions;
 router.get("/:id/instructions", (req, res) => {
   const { id } = req.params;
 
@@ -161,60 +142,60 @@ router.get("/:id/instructions", (req, res) => {
 
 //editRecipe
 
-router.put("/:id", (req, res) => {
-  const recipe = Recipe.findBy((r) => r.id === parseInt(req.params.recipe_id));
-  if (!recipe) res.status(404).send("The course with the given id was missing");
+// router.put("/:id", (req, res) => {
+//   const recipe = Recipe.findBy((r) => r.id === parseInt(req.params.recipe_id));
+//   if (!recipe) res.status(404).send("The course with the given id was missing");
 
-  const { error } = validateRecipe(req.body);
-  if (error) {
-    res.status(400).send(error.details[0].message);
-    return;
-  }
-  recipe.body = req.body;
-  res.send(recipe);
-});
+//   const { error } = validateRecipe(req.body);
+//   if (error) {
+//     res.status(400).send(error.details[0].message);
+//     return;
+//   }
+//   recipe.body = req.body;
+//   res.send(recipe);
+// });
 
-function validateRecipe(recipe) {
-  const schema = {
-    name: Joi.string().min(1).required(),
-  };
-  return Joi.validate(recipe, schema);
-}
-//deleteRecipe
-router.delete("/:id", (req, res) => {
-  const { recipe_id } = req.params;
-  Recipe.remove(recipe_id)
-    .then(() => {
-      res.status(200).json({ message: `Recipe ${recipe_id} has been removed` });
-    })
-    .catch((err) => {
-      res.status(500).json({ error: err.message });
-    });
-});
+// function validateRecipe(recipe) {
+//   const schema = {
+//     name: Joi.string().min(1).required(),
+//   };
+//   return Joi.validate(recipe, schema);
+// }
+// //deleteRecipe
+// router.delete("/:id", (req, res) => {
+//   const { recipe_id } = req.params;
+//   Recipe.remove(recipe_id)
+//     .then(() => {
+//       res.status(200).json({ message: `Recipe ${recipe_id} has been removed` });
+//     })
+//     .catch((err) => {
+//       res.status(500).json({ error: err.message });
+//     });
+// });
 
-//Find by category
-router.post("/category", (req, res) => {
-  const { category } = req.body;
+// //Find by category
+// router.post("/category", (req, res) => {
+//   const { category } = req.body;
 
-  Recipe.findBy({ category: category })
-    .then((data) => {
-      res.status(200).json(data);
-    })
-    .catch((err) => {
-      res.status(500).json({ error: err.message });
-    });
-});
+//   Recipe.findBy({ category: category })
+//     .then((data) => {
+//       res.status(200).json(data);
+//     })
+//     .catch((err) => {
+//       res.status(500).json({ error: err.message });
+//     });
+// });
 
-router.post("/name", (req, res) => {
-  const { recipe_name } = req.body;
+// router.post("/name", (req, res) => {
+//   const { recipe_name } = req.body;
 
-  Recipe.findBy({ recipe_name: recipe_name })
-    .then((data) => {
-      res.status(200).json(data);
-    })
-    .catch((err) => {
-      res.status(500).json({ error: err.message });
-    });
-});
+//   Recipe.findBy({ recipe_name: recipe_name })
+//     .then((data) => {
+//       res.status(200).json(data);
+//     })
+//     .catch((err) => {
+//       res.status(500).json({ error: err.message });
+//     });
+// });
 
 module.exports = router;

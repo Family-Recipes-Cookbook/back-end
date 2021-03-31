@@ -2,29 +2,20 @@ const db = require("../../data/dbConfig");
 
 module.exports = {
   add(recipe) {
-    return db("recipes").insert(recipe, "id");
+    return db("recipes").insert(recipe);
   },
-
-  // async getRecipeById(recipe_id){
-  //   const recipeRows = await db('recipes as r')
-  //     .where('recipe_id', recipe_id)
-  //   return recipeRows
-  // },
 
   getRecipes() {
     return db("recipes");
   },
 
-  async addToShoppingList(ingredient) {
-    const [id] = await db("ingredients as i")
-      .join("step_ingredients as si", "i.ingredient_id", "si.ingredient_id")
-      .join("steps as s", "si.step_id", "s.step_id")
-      .select("i.ingredient_name", "si.ingredient_quantity")
-      .where("s.recipe_id", id)
-      .insert(ingredient)
-      .then(([id]) => {
-        return db("ingredients").where("id", id).first();
-      });
+  addToInstructions(id, instruction) {
+    const newInstruction = { recipe_id: id, ...instruction };
+    return db("instructions").insert(newInstruction, [
+      "recipe_id",
+      "instruction_description",
+      "instruction_id",
+    ]);
   },
 
   getInstructions(recipe_id) {
@@ -33,16 +24,16 @@ module.exports = {
   getIngredients(recipe_id) {
     return db("ingredients").where("recipe_id", recipe_id);
   },
-  async addToInstructions(step) {
-    const [id] = await db("steps")
-      .select("step_text", "step_order")
-      .where("recipe_id", id)
-      .orderBy("step_order")
-      .insert(step)
-      .then(([id]) => {
-        return db("steps").where("id", id).first();
-      });
-  },
+  // async addToInstructions(step) {
+  //   const [id] = await db("steps")
+  //     .select("step_text", "step_order")
+  //     .where("recipe_id", id)
+  //     .orderBy("step_order")
+  //     .insert(step)
+  //     .then(([id]) => {
+  //       return db("steps").where("id", id).first();
+  //     });
+  // },
 
   remove(recipe_id) {
     return db("recipes").where({ recipe_id }).del();
