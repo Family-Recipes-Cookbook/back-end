@@ -4,7 +4,12 @@ const jwt = require("jsonwebtoken");
 const Joi = require("joi");
 
 const Recipe = require("./recipe-model");
-const { getInstructions, getIngredients } = require("./recipe-model");
+const {
+  getInstructions,
+  getIngredients,
+  findInstructionById,
+  editInstruction,
+} = require("./recipe-model");
 
 // Post recipe
 router.post("/", (req, res) => {
@@ -92,23 +97,6 @@ router.get("/:id", (req, res) => {
     });
 });
 
-// // Get Ingredients for Recipe Item
-// router.get("/:id/shoppingList", async (req, res) => {
-//   const { id } = req.params;
-//   Recipe.getShoppingList(id)
-//     .then((ingredients) => {
-//       if (ingredients.length) {
-//         res.status(201).json(ingredients);
-//       } else {
-//         res
-//           .status(404)
-//           .json({ message: "Could not find ingredients for given recipe" });
-//       }
-//     })
-//     .catch((err) => {
-//       res.status(500).json(err.message);
-//     });
-// });
 // addInstructions
 router.post("/:id/instructions", (req, res) => {
   const { id } = req.params;
@@ -139,7 +127,7 @@ router.get("/:id/instructions", (req, res) => {
       res.status(500).json(err.message);
     });
 });
-
+//add ingredient
 router.post("/:id/ingredients", (req, res) => {
   const { id } = req.params;
   Recipe.addToIngredients(id, req.body)
@@ -150,7 +138,7 @@ router.post("/:id/ingredients", (req, res) => {
       res.status(500).json({ error: err.message });
     });
 });
-
+//get ingredients by id
 getIngredients;
 router.get("/:id/ingredients", (req, res) => {
   const { id } = req.params;
@@ -172,6 +160,38 @@ router.get("/:id/ingredients", (req, res) => {
 
 //editRecipe
 
+router.put("/:id", (req, res) => {
+  const id = req.params.id;
+  const changes = req.body;
+  Recipe.edit(id, changes)
+    .then((recipe) => {
+      if (!recipe) {
+        res.status(404).json({ message: "could not find recipe with id" });
+      } else {
+        return Recipe.findById(id);
+      }
+    })
+    .then((updateRecipe) => {
+      res.json(updateRecipe);
+    });
+});
+
+//get instruction
+router.put("/:id/instructions", (req, res) => {
+  const id = req.params.id;
+  const changes = req.body;
+  Recipe.editInstruction(id, changes)
+    .then((instruction) => {
+      if (!instruction) {
+        res.status(404).json({ message: "could not find instruction with id" });
+      } else {
+        return Recipe.findInstructionById(id);
+      }
+    })
+    .then((updateinstruction) => {
+      res.json(updateinstruction);
+    });
+});
 // router.put("/:id", (req, res) => {
 //   const recipe = Recipe.findBy((r) => r.id === parseInt(req.params.recipe_id));
 //   if (!recipe) res.status(404).send("The course with the given id was missing");

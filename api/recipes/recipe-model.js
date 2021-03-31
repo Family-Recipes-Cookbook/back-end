@@ -47,13 +47,35 @@ module.exports = {
   },
 
   edit(recipe_id, changes) {
-    return db("recipes").where({ recipe_id }).update(changes);
+    return db("recipes")
+      .where({ recipe_id })
+      .update(changes)
+      .then(() => {
+        return db("recipes").where("recipe_id", recipe_id);
+      });
   },
+  editInstruction(recipe_id, changes) {
+    return db("instructions")
+      .where({ recipe_id })
+      .update(changes)
+      .then(() => {
+        return db("instructions").where("recipe_id", recipe_id);
+      });
+  },
+  // function update(id, client) {
+  //     const clientId = id
+  //     return db("clients").where("id", id).update(client)
+  //     .then(() => {
+  //         return db("clients").where("id", clientId).first()
+  //     })
+  // }
 
   findById(recipe_id) {
     return db("recipes").where({ recipe_id });
   },
-
+  findInstructionById(recipe_id) {
+    return db("instructions").where({ recipe_id });
+  },
   findBy(filter) {
     return db("recipes").where(filter).orderBy("id");
   },
