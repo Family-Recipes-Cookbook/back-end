@@ -54,27 +54,32 @@ module.exports = {
         return db("recipes").where("recipe_id", recipe_id);
       });
   },
-  editInstruction(recipe_id, changes) {
+  editInstruction(recipe_id, changes, instruction_id) {
     return db("instructions")
       .where({ recipe_id })
+      .where({ instruction_id })
       .update(changes)
       .then(() => {
         return db("instructions").where("recipe_id", recipe_id);
       });
   },
-  // function update(id, client) {
-  //     const clientId = id
-  //     return db("clients").where("id", id).update(client)
-  //     .then(() => {
-  //         return db("clients").where("id", clientId).first()
-  //     })
-  // }
-
+  editIngredient(recipe_id, changes, ingredient_id) {
+    return db("ingredients")
+      .where({ recipe_id })
+      .where({ ingredient_id })
+      .update(changes)
+      .then(() => {
+        return db("ingredients").where("recipe_id", recipe_id);
+      });
+  },
   findById(recipe_id) {
     return db("recipes").where({ recipe_id });
   },
   findInstructionById(recipe_id) {
     return db("instructions").where({ recipe_id });
+  },
+  findIngredientById(recipe_id) {
+    return db("ingredients").where({ recipe_id });
   },
   findBy(filter) {
     return db("recipes").where(filter).orderBy("id");
