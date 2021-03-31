@@ -1,44 +1,3 @@
-// exports.up = function (knex) {
-//   return knex.schema
-//     .createTable("recipes", (table) => {
-//       table.increments("recipe_id");
-//       table.string("recipe_name", 128).notNullable();
-//       table.string("author", 128).notNullable();
-//       table.string("category", 128).notNullable();
-//       table.string("time", 128).notNullable();
-//       table.string("ingredients").notNullable();
-//       table.string("steps").notNullable();
-//     })
-//     .createTable("ingredients", (table) => {
-//       table.increments("ingredient_id");
-//       table.string("Ingredient_name");
-//     })
-//     .createTable("steps", (table) => {
-//       table.increments("step_id");
-//       table.string("step_name");
-//       table.integer("step_order");
-//     })
-//     .createTable("recipe_ingredients", (table) => {
-//       table.increments("recipe_ingredient_id");
-//       table.integer("recipe_id").references("recipe_id").inTable("recipes");
-//       table
-//         .integer("ingredient_id")
-//         .references("ingredient_id")
-//         .inTable("ingredients");
-//       table.integer("ingredient_quantity").defaultTo(0);
-//       table.integer("unit_id").references("unit_id").inTable("units");
-//       table.integer("unit_quantity").defaultTo(0);
-//     })
-//     .createTable("step_ingredients", (table) => {
-//       table.increments("ingredient_id");
-//       table.string("ingredient_quantity");
-//     });
-// };
-
-// exports.down = function (knex) {
-//   return knex.schema.dropTableIfExists("recipes");
-// };
-
 exports.up = function (knex) {
   return knex.schema
     .createTable("users", (tbl) => {
@@ -53,7 +12,6 @@ exports.up = function (knex) {
     .createTable("categories", (tbl) => {
       tbl.increments("category_id");
       tbl.string("category_name", 128).notNullable().unique();
-      // tbl.integer("recipe_id").references("recipe_id").inTable("recipes");
     })
     .createTable("recipes", (tbl) => {
       tbl.increments("recipe_id");
