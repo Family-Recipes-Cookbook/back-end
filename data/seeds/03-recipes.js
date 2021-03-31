@@ -51,7 +51,6 @@ exports.seed = function (knex) {
           title: "moms ribs",
           author: "Grandma Rose",
           category_id: 1,
-          user_id: 1,
         },
       ]);
     });
