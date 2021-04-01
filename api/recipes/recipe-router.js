@@ -10,6 +10,7 @@ const {
   findInstructionById,
   editInstruction,
   editIngredient,
+  remove,
 } = require("./recipe-model");
 
 // Post recipe
@@ -56,7 +57,7 @@ router.get("/", async (req, res) => {
       }
     })
     .catch((err) => {
-      res.status(500).json({ error: error.message });
+      res.status(500).json({ err: error.message });
     });
 });
 // Get Recipe by Id
@@ -213,16 +214,16 @@ router.put("/:recipe_id/ingredients/:ingredient_id", (req, res) => {
 });
 
 // //deleteRecipe
-// router.delete("/:id", (req, res) => {
-//   const { recipe_id } = req.params;
-//   Recipe.remove(recipe_id)
-//     .then(() => {
-//       res.status(200).json({ message: `Recipe ${recipe_id} has been removed` });
-//     })
-//     .catch((err) => {
-//       res.status(500).json({ error: err.message });
-//     });
-// });
+router.delete("/:id", (req, res) => {
+  const recipe_id = req.params.id;
+  Recipe.remove(recipe_id)
+    .then(() => {
+      res.status(200).json({ message: `Recipe ${recipe_id} has been removed` });
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err.message });
+    });
+});
 
 // //Find by category
 // router.post("/category", (req, res) => {
