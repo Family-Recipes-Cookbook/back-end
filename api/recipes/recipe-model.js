@@ -35,16 +35,6 @@ module.exports = {
   getIngredients(recipe_id) {
     return db("ingredients").where("recipe_id", recipe_id);
   },
-  // async addToInstructions(step) {
-  //   const [id] = await db("steps")
-  //     .select("step_text", "step_order")
-  //     .where("recipe_id", id)
-  //     .orderBy("step_order")
-  //     .insert(step)
-  //     .then(([id]) => {
-  //       return db("steps").where("id", id).first();
-  //     });
-  // },
 
   remove(recipe_id) {
     return db("recipes").where({ recipe_id }).del();
