@@ -6,11 +6,7 @@ module.exports = {
   },
 
   getRecipes() {
-    return db("recipes").join(
-      "categories as c",
-      "recipes.category_id",
-      "c.category_id"
-    );
+    return db("recipes");
   },
 
   addToInstructions(id, instruction) {

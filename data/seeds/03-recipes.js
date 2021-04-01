@@ -3,6 +3,6 @@ exports.seed = function (knex) {
   return knex("recipes").truncate().insert({
     title: "moms ribs",
     author: "Grandma Rose",
-    category_id: 1,
+    category: "dinner",
   });
 };

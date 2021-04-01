@@ -17,14 +17,7 @@ exports.up = function (knex) {
       tbl.increments("recipe_id");
       tbl.string("title", 128).notNullable().unique();
       tbl.string("author", 128).notNullable();
-      tbl
-        .integer("category_id")
-        .unsigned()
-        .notNullable()
-        .references("category_id")
-        .inTable("categories")
-        .onUpdate("CASCADE")
-        .onDelete("CASCADE");
+      tbl.string("category", 128).notNullable();
     })
     .createTable("ingredients", (tbl) => {
       tbl.increments("ingredient_id");
