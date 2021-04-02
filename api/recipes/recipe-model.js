@@ -1,8 +1,13 @@
 const db = require("../../data/dbConfig");
 
 module.exports = {
-  add(recipe) {
-    return db("recipes").insert(recipe);
+  async add(recipe) {
+    await db("recipes").insert(recipe);
+    return db("recipes").where(recipe).first();
+    // .then((data) => {
+    //   console.log(data)
+    //   return db("recipes").where("recipe_id", recipe_id).first();
+    // });
   },
 
   getRecipes() {

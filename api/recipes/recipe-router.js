@@ -17,6 +17,7 @@ const {
 router.post("/", (req, res) => {
   Recipe.add(req.body)
     .then((newRecipe) => {
+      console.log(newRecipe);
       res.status(201).json(newRecipe);
     })
     .catch((err) => {
